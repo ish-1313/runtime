@@ -63,7 +63,11 @@ namespace Microsoft.CSharp.RuntimeBinder.ComInterop
             {
                 // If we have a custom message, create a new Exception object with the message set correctly.
                 // We need to create a new object because "exception.Message" is a read-only property.
-                if (exception is COMException)
+                if (exception == null)
+                {
+                    exception = new Exception($"{errorCode}:{message}");
+                }
+                else if (exception is  COMException)
                 {
                     exception = new COMException(message, errorCode);
                 }
