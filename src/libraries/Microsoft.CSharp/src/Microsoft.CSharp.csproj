@@ -1,4 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Переопределяем версии только для этого проекта -->
+    <VersionPrefix>9.0.5</VersionPrefix>
+    <VersionSuffix>ish</VersionSuffix>
+    <FileVersion>9.0.5.1</FileVersion>
+    <AssemblyVersion>9.0.0.0</AssemblyVersion>
+    <PackageVersion>9.0.5-ish-cominterop-fix</PackageVersion>
+  </PropertyGroup>
 
   <PropertyGroup>
     <TargetFrameworks>$(NetCoreAppCurrent)-windows;$(NetCoreAppCurrent)</TargetFrameworks>
@@ -14,6 +22,7 @@
     <AllowUnsafeBlocks Condition="'$(EnableComBinder)' == 'true'">true</AllowUnsafeBlocks>
     <DefineConstants>$(DefineConstants);LEGACY_GETRESOURCESTRING_USER</DefineConstants>
     <EnableAOTAnalyzer>false</EnableAOTAnalyzer>
+    <Version>$(VersionPrefix)$(VersuionSuffix)</Version>
   </PropertyGroup>
 
   <ItemGroup>

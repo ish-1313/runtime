@@ -56,18 +56,20 @@ namespace Microsoft.CSharp.RuntimeBinder.ComInterop
 #endif
 
             int errorCode = (scode != 0) ? scode : wCode;
-            Exception exception = Marshal.GetExceptionForHR(errorCode);
-
             string message = ConvertAndFreeBstr(ref bstrDescription);
+
+            Exception exception = Marshal.GetExceptionForHR(errorCode);
+            //ish: our changes for handling 1C errors. the rest is original code and comments
+            // changed to be closer to official fix in https://github.com/dotnet/runtime/pull/117596
+            exception ??= new COMException(null, errorCode);
+
+
             if (message != null)
             {
                 // If we have a custom message, create a new Exception object with the message set correctly.
                 // We need to create a new object because "exception.Message" is a read-only property.
-                if (exception == null)
-                {
-                    exception = new Exception($"{errorCode}:{message}");
-                }
-                else if (exception is  COMException)
+
+                if (exception is  COMException)
                 {
                     exception = new COMException(message, errorCode);
                 }
